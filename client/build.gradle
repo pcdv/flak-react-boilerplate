@@ -1,0 +1,51 @@
+description = "Web interface (Javascript / React)"
+
+apply plugin: 'java'
+
+// override build dir because it conflicts with create-react-app (react-scripts)
+buildDir = 'build-gradle'
+
+def npmCmd = org.gradle.internal.os.OperatingSystem.current().isWindows() ? "npm.cmd" : "yarn"
+npmCmd = findProperty("flak-react-boilerplate.npmCmd") ?: npmCmd
+
+def npmDevMode = findProperty("flak-react-boilerplate.npmDevMode") ?: 'production'
+
+jar {
+  into('app') {
+    from("build")
+    if (npmDevMode == 'production') {
+      exclude '**/*.js.map'
+      exclude '**/*.css.map'
+    }
+  }
+}
+
+
+task npmBuild {
+  inputs.dir('src')
+  outputs.file('build/index.html')
+
+  doLast {
+    exec {
+      commandLine npmCmd, 'install'
+    }
+    exec {
+      commandLine npmCmd, 'run', 'build'
+    }
+  }
+}
+
+processResources.dependsOn(npmBuild)
+
+// only activate npmBuild task when standaloneJar task
+// is to be executed
+gradle.taskGraph.whenReady { taskGraph ->
+  if (!taskGraph.hasTask(":server:shadowJar")) {
+    npmBuild.enabled = false
+  }
+}
+
+// stop publishing huge jar that is unused
+tasks.matching { it.name.startsWith("publishIvyPublicationTo") }.all {
+  enabled = false
+}

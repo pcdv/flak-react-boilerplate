@@ -1,0 +1,9 @@
+apply from: "$buildscript.sourceFile.parentFile/versions.gradle"
+
+subprojects {
+  group 'flak.react.boilerplate'
+  version '1.0-SNAPSHOT'
+  repositories {
+    jcenter()
+  }
+}

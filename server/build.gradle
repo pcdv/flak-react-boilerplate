@@ -1,0 +1,44 @@
+description = "Server part of flak-react-boilerplate"
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+  standalone {
+    extendsFrom runtime
+  }
+}
+
+dependencies {
+  compile "com.github.pcdv.flak:flak-api:${versions.flak}"
+//  compile "com.github.pcdv.flak:flak-login:${versions.flak}"
+//  compile "com.github.pcdv.flak:flak-util:${versions.flak}"
+//  compile "com.github.pcdv.flak:flak-jackson:${versions.flak}"
+  compile "com.github.pcdv.flak:flak-resource:${versions.flak}"
+  runtime "com.github.pcdv.flak:flak-backend-jdk:${versions.flak}"
+  standalone project(':client')
+}
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+  }
+}
+
+shadowJar {
+  mergeServiceFiles()
+  archivesBaseName = 'flak-react-boilerplate'
+  configurations = [project.configurations.standalone]
+}
+
+jar {
+  manifest {
+    attributes("Main-Class": "flak.react.boilerplate.Main")
+  }
+}

@@ -1,0 +1,4 @@
+rootProject.name = 'flak-react-boilerplate'
+
+include "server"
+include "client"
