@@ -4,8 +4,14 @@ apply plugin: 'java'
 
 // override build dir because it conflicts with create-react-app (react-scripts)
 buildDir = 'build-gradle'
+task cleanBuildDir {
+  doLast {
+    delete(file("build"))
+  }
+}
+clean.dependsOn(cleanBuildDir)
 
-def npmCmd = org.gradle.internal.os.OperatingSystem.current().isWindows() ? "npm.cmd" : "yarn"
+def npmCmd = org.gradle.internal.os.OperatingSystem.current().isWindows() ? "yarn.cmd" : "yarn"
 npmCmd = findProperty("flak-react-boilerplate.npmCmd") ?: npmCmd
 
 def npmDevMode = findProperty("flak-react-boilerplate.npmDevMode") ?: 'production'
