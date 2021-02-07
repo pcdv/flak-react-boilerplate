@@ -14,9 +14,6 @@ configurations {
 
 dependencies {
   compile "com.github.pcdv.flak:flak-api:${versions.flak}"
-//  compile "com.github.pcdv.flak:flak-login:${versions.flak}"
-//  compile "com.github.pcdv.flak:flak-util:${versions.flak}"
-//  compile "com.github.pcdv.flak:flak-jackson:${versions.flak}"
   compile "com.github.pcdv.flak:flak-resource:${versions.flak}"
   runtime "com.github.pcdv.flak:flak-backend-jdk:${versions.flak}"
   standalone project(':client')
@@ -25,6 +22,7 @@ dependencies {
 buildscript {
   repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
   }
   dependencies {
     classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'

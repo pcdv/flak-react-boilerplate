@@ -4,6 +4,6 @@ subprojects {
   group 'flak.react.boilerplate'
   version '1.0-SNAPSHOT'
   repositories {
-    jcenter()
+    maven { url "https://jitpack.io" }
   }
 }
