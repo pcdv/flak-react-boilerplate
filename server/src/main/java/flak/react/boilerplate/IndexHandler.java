@@ -20,19 +20,7 @@ public class IndexHandler {
 
   public IndexHandler(App app) {
     FlakResourceImpl res = new FlakResourceImpl(app);
-
-    // NB: this should be merged upstream
-    res.setContentTypeProvider(new DefaultContentTypeProvider() {
-      @Override
-      public String getContentType(String path) {
-        path = path.toLowerCase();
-        if (path.endsWith(".png"))
-          return "image/png";
-        if (path.endsWith(".svg"))
-          return "image/svg+xml";
-        return super.getContentType(path);
-      }
-    });
+    res.setContentTypeProvider(new DefaultContentTypeProvider());
 
     ClassLoader loader = getClass().getClassLoader();
     res.servePath("/", "/app", loader, false);
